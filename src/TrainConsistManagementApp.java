@@ -1,41 +1,34 @@
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
         System.out.println("==========================================");
-        System.out.println("UC4 - Maintain Ordered Bogie Consist");
+        System.out.println("UC5 - Preserve Insertion Order of Bogies");
         System.out.println("==========================================\n");
 
-        // Initialize a LinkedList to maintain the physical sequence of the train
-        LinkedList<String> trainConsist = new LinkedList<>();
+        // Initialize a LinkedHashSet to maintain insertion order and ensure uniqueness
+        Set<String> trainFormation = new LinkedHashSet<>();
 
-        // 1. Initial Train Formation
-        trainConsist.add("Engine");
-        trainConsist.add("Sleeper");
-        trainConsist.add("AC");
-        trainConsist.add("Cargo");
-        trainConsist.add("Guard");
+        // 1. Attach bogies to the formation
+        trainFormation.add("Engine");
+        trainFormation.add("Sleeper");
+        trainFormation.add("Cargo");
+        trainFormation.add("Guard");
 
-        System.out.println("Initial Train Consist:");
-        System.out.println(trainConsist + "\n");
+        // 2. Attempt to add a duplicate bogie intentionally
+        // LinkedHashSet will ignore this to prevent duplicate attachments
+        trainFormation.add("Sleeper");
 
-        // 2. Inserting 'Pantry Car' at position 2 (index 2)
-        // LinkedList allows efficient insertion in the middle
-        trainConsist.add(2, "Pantry Car");
+        // 3. Display the final formation
+        System.out.println("Final Train Formation:");
+        System.out.println(trainFormation + "\n");
 
-        System.out.println("After Inserting 'Pantry Car' at position 2:");
-        System.out.println(trainConsist + "\n");
+        System.out.println("Note:");
+        System.out.println("LinkedHashSet preserves insertion order and removes duplicates automatically.\n");
 
-        // 3. Removing First and Last Bogie
-        // Using specific LinkedList methods to detach from head and tail
-        trainConsist.removeFirst();
-        trainConsist.removeLast();
-
-        System.out.println("After Removing First and Last Bogie:");
-        System.out.println(trainConsist + "\n");
-
-        System.out.println("UC4 ordered consist operations completed...");
+        System.out.println("UC5 formation setup completed...");
     }
 }
