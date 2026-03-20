@@ -1,34 +1,30 @@
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
         System.out.println("==========================================");
-        System.out.println("UC5 - Preserve Insertion Order of Bogies");
+        System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
         System.out.println("==========================================\n");
 
-        // Initialize a LinkedHashSet to maintain insertion order and ensure uniqueness
-        Set<String> trainFormation = new LinkedHashSet<>();
+        // 1. Create a HashMap to store Bogie names (Key) and their Capacities (Value)
+        Map<String, Integer> bogieCapacityMap = new HashMap<>();
 
-        // 1. Attach bogies to the formation
-        trainFormation.add("Engine");
-        trainFormation.add("Sleeper");
-        trainFormation.add("Cargo");
-        trainFormation.add("Guard");
+        // 2. Insert capacity values using the put() method
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 56);
+        bogieCapacityMap.put("First Class", 24);
+        bogieCapacityMap.put("Cargo", 120);
 
-        // 2. Attempt to add a duplicate bogie intentionally
-        // LinkedHashSet will ignore this to prevent duplicate attachments
-        trainFormation.add("Sleeper");
+        System.out.println("Bogie Capacity Details:");
 
-        // 3. Display the final formation
-        System.out.println("Final Train Formation:");
-        System.out.println(trainFormation + "\n");
+        // 3. Iterate over the map using entrySet() to display Keys and Values
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
 
-        System.out.println("Note:");
-        System.out.println("LinkedHashSet preserves insertion order and removes duplicates automatically.\n");
-
-        System.out.println("UC5 formation setup completed...");
+        System.out.println("\nUC6 bogie-capacity mapping completed...");
     }
 }
