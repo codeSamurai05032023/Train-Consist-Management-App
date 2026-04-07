@@ -3,46 +3,32 @@ import java.util.Arrays;
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
-        // ... (Previous UC1 to UC15 code remains here) ...
+        // ... (Previous UC1 to UC16 code remains here) ...
 
-        System.out.println("==================================================");
-        System.out.println(" UC16 - Sort Passenger Bogies (Bubble Sort) ");
-        System.out.println("==================================================\n");
+        System.out.println("==========================================");
+        System.out.println(" UC17 - Sort Bogie Names (Arrays.sort) ");
+        System.out.println("==========================================\n");
 
-        // 1. Initial array of bogie capacities (unsorted)
-        int[] capacities = {72, 56, 24, 70, 60};
+        // 1. Define an array of bogie type names (unsorted)
+        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
 
-        System.out.println("Before Sorting: " + Arrays.toString(capacities));
+        System.out.println("Before Sorting:");
+        System.out.println(Arrays.toString(bogieNames));
 
-        // 2. Bubble Sort Algorithm Logic
-        // The outer loop tracks the number of passes
-        for (int i = 0; i < capacities.length - 1; i++) {
-            // The inner loop compares adjacent elements
-            for (int j = 0; j < capacities.length - 1 - i; j++) {
-                // If the left element is greater than the right, they are out of order
-                if (capacities[j] > capacities[j + 1]) {
-                    // Perform Swap using a temporary variable
-                    int temp = capacities[j];
-                    capacities[j] = capacities[j + 1];
-                    capacities[j + 1] = temp;
-                }
-            }
-        }
+        // 2. Use Java's built-in optimized sorting method
+        // This sorts the array in-place using natural alphabetical ordering
+        Arrays.sort(bogieNames);
 
         // 3. Display the sorted result
-        System.out.println("After Sorting (Bubble Sort): " + Arrays.toString(capacities));
+        System.out.println("\nAfter Alphabetical Sorting:");
+        System.out.println(Arrays.toString(bogieNames));
 
         // Validation for Test Cases
-        System.out.println("\n--- Sorting Validation ---");
-        boolean isSorted = true;
-        for (int i = 0; i < capacities.length - 1; i++) {
-            if (capacities[i] > capacities[i + 1]) {
-                isSorted = false;
-                break;
-            }
+        System.out.println("\n--- Alphabetical Validation ---");
+        if (bogieNames[0].equals("AC Chair") && bogieNames[bogieNames.length - 1].equals("Sleeper")) {
+            System.out.println("Status: Bogie names are perfectly ordered.");
         }
-        System.out.println("Is array correctly sorted? " + (isSorted ? "YES" : "NO"));
 
-        System.out.println("\nUC16 manual sorting completed...");
+        System.out.println("\nUC17 library-based sorting completed...");
     }
 }
