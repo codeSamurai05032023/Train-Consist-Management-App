@@ -1,62 +1,65 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
 
-    // Model for Goods Bogies used in UC12
-    static class GoodsBogie {
-        String type;
-        String cargo;
+    // Reusing Bogie model from previous Use Cases
+    static class Bogie {
+        String name;
+        int capacity;
 
-        GoodsBogie(String type, String cargo) {
-            this.type = type;
-            this.cargo = cargo;
-        }
-
-        @Override
-        public String toString() {
-            return type + " [" + cargo + "]";
+        Bogie(String name, int capacity) {
+            this.name = name;
+            this.capacity = capacity;
         }
     }
 
     public static void main(String[] args) {
-        // ... (Previous UC1 to UC11 code remains here) ...
+        // ... (Previous UC1 to UC12 code remains here) ...
 
         System.out.println("==========================================");
-        System.out.println(" UC12 - Safety Compliance Check (Goods) ");
+        System.out.println(" UC13 - Performance: Loops vs Streams ");
         System.out.println("==========================================\n");
 
-        // 1. Prepare a list of goods bogies
-        List<GoodsBogie> goodsConsist = new ArrayList<>();
-        goodsConsist.add(new GoodsBogie("Open", "Coal"));
-        goodsConsist.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        goodsConsist.add(new GoodsBogie("Box", "Grain"));
-        // Uncomment the next line to test a safety violation:
-        // goodsConsist.add(new GoodsBogie("Cylindrical", "Coal"));
-
-        System.out.println("Current Goods Consist:");
-        goodsConsist.forEach(System.out::println);
-
-        // 2. Define the Safety Rule using allMatch()
-        // Rule: IF the type is Cylindrical, THEN the cargo MUST be Petroleum.
-        // Logic: (Not Cylindrical) OR (Is Cylindrical AND Cargo is Petroleum)
-        boolean isSafe = goodsConsist.stream().allMatch(bogie -> {
-            if (bogie.type.equalsIgnoreCase("Cylindrical")) {
-                return bogie.cargo.equalsIgnoreCase("Petroleum");
-            }
-            return true; // Non-cylindrical bogies are always safe in this context
-        });
-
-        // 3. Display the safety result
-        System.out.println("\n--- Safety Validation Result ---");
-        if (isSafe) {
-            System.out.println("STATUS: SAFE");
-            System.out.println("All cylindrical bogies are carrying Petroleum. Train is compliant.");
-        } else {
-            System.out.println("STATUS: UNSAFE");
-            System.out.println("DANGER: Cylindrical bogie detected with non-petroleum cargo!");
+        // 1. Prepare a large collection of bogies for benchmarking
+        List<Bogie> largeConsist = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            largeConsist.add(new Bogie("Sleeper", 72));
+            largeConsist.add(new Bogie("AC Chair", 56));
         }
 
-        System.out.println("\nUC12 safety check completed...");
+        // 2. Benchmarking Loop-Based Filtering
+        long startLoop = System.nanoTime();
+        List<Bogie> loopFiltered = new ArrayList<>();
+        for (Bogie b : largeConsist) {
+            if (b.capacity > 60) {
+                loopFiltered.add(b);
+            }
+        }
+        long endLoop = System.nanoTime();
+        long loopDuration = endLoop - startLoop;
+
+        // 3. Benchmarking Stream-Based Filtering
+        long startStream = System.nanoTime();
+        List<Bogie> streamFiltered = largeConsist.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+        long endStream = System.nanoTime();
+        long streamDuration = endStream - startStream;
+
+        // 4. Display Results
+        System.out.println("Loop-Based Filtering Time   : " + loopDuration + " ns");
+        System.out.println("Stream-Based Filtering Time : " + streamDuration + " ns");
+
+        System.out.println("\nVerification:");
+        System.out.println("Loop Results Count   : " + loopFiltered.size());
+        System.out.println("Stream Results Count : " + streamFiltered.size());
+
+        if (loopFiltered.size() == streamFiltered.size()) {
+            System.out.println("STATUS: Results Match. Logic is consistent.");
+        }
+
+        System.out.println("\nUC13 performance comparison completed...");
     }
 }
