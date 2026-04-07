@@ -3,32 +3,51 @@ import java.util.Arrays;
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
-        // ... (Previous UC1 to UC16 code remains here) ...
+        // ... (Previous UC1 to UC17 code remains here) ...
 
         System.out.println("==========================================");
-        System.out.println(" UC17 - Sort Bogie Names (Arrays.sort) ");
+        System.out.println(" UC18 - Linear Search for Bogie ID ");
         System.out.println("==========================================\n");
 
-        // 1. Define an array of bogie type names (unsorted)
-        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        // 1. Create an array of bogie IDs (unsorted)
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
+        // 2. Define the search key
+        String searchKey = "BG309";
+        boolean isFound = false;
+        int position = -1;
 
-        // 2. Use Java's built-in optimized sorting method
-        // This sorts the array in-place using natural alphabetical ordering
-        Arrays.sort(bogieNames);
+        System.out.println("Consist IDs: " + Arrays.toString(bogieIds));
+        System.out.println("Searching for Bogie ID: " + searchKey);
 
-        // 3. Display the sorted result
-        System.out.println("\nAfter Alphabetical Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
-
-        // Validation for Test Cases
-        System.out.println("\n--- Alphabetical Validation ---");
-        if (bogieNames[0].equals("AC Chair") && bogieNames[bogieNames.length - 1].equals("Sleeper")) {
-            System.out.println("Status: Bogie names are perfectly ordered.");
+        // 3. Linear Search Logic: Sequential Traversal
+        for (int i = 0; i < bogieIds.length; i++) {
+            // Equality Comparison using .equals() for Strings
+            if (bogieIds[i].equals(searchKey)) {
+                isFound = true;
+                position = i;
+                break; // Early Termination: stop as soon as a match is found
+            }
         }
 
-        System.out.println("\nUC17 library-based sorting completed...");
+        // 4. Display the result
+        if (isFound) {
+            System.out.println("Result: Bogie " + searchKey + " found at position " + (position + 1));
+        } else {
+            System.out.println("Result: Bogie " + searchKey + " not found in the consist.");
+        }
+
+        // 5. Testing a "Not Found" case for validation
+        String missingKey = "BG999";
+        boolean foundMissing = false;
+        for (String id : bogieIds) {
+            if (id.equals(missingKey)) {
+                foundMissing = true;
+                break;
+            }
+        }
+        System.out.println("Searching for Bogie ID: " + missingKey + " -> Found? " + foundMissing);
+
+        System.out.println("\nUC18 linear search completed...");
     }
 }
