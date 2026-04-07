@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// Ensure this class remains outside your main method to be reused
 static class Bogie {
     String name;
     int capacity;
