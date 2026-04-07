@@ -1,79 +1,48 @@
-import java.util.ArrayList;
-import java.util.List;
-
-// 1. Define a Custom Runtime Exception for Operational Safety
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
+import java.util.Arrays;
 
 public class TrainConsistManagementApp {
 
-    // 2. Updated GoodsBogie with an assignment method
-    static class GoodsBogie {
-        String shape;
-        String cargo;
-
-        GoodsBogie(String shape) {
-            this.shape = shape;
-            this.cargo = "Empty";
-        }
-
-        // Method to assign cargo with safety validation
-        public void assignCargo(String newCargo) {
-            System.out.println("Attempting to assign " + newCargo + " to " + shape + " bogie...");
-
-            // Logic: Petroleum is ONLY allowed in Cylindrical bogies
-            if (newCargo.equalsIgnoreCase("Petroleum") && !shape.equalsIgnoreCase("Cylindrical")) {
-                throw new CargoSafetyException("DANGER: Petroleum cannot be carried in a " + shape + " bogie!");
-            }
-
-            this.cargo = newCargo;
-            System.out.println("Success: Cargo assigned successfully.");
-        }
-
-        @Override
-        public String toString() {
-            return shape + " Bogie [Cargo: " + cargo + "]";
-        }
-    }
-
     public static void main(String[] args) {
-        // ... (Previous UC code remains here) ...
+        // ... (Previous UC1 to UC15 code remains here) ...
 
-        System.out.println("==========================================");
-        System.out.println(" UC15 - Safe Cargo Assignment (Try-Catch) ");
-        System.out.println("==========================================\n");
+        System.out.println("==================================================");
+        System.out.println(" UC16 - Sort Passenger Bogies (Bubble Sort) ");
+        System.out.println("==================================================\n");
 
-        GoodsBogie rectangularBogie = new GoodsBogie("Rectangular");
-        GoodsBogie cylindricalBogie = new GoodsBogie("Cylindrical");
+        // 1. Initial array of bogie capacities (unsorted)
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // 3. Structured Exception Handling (Valid Case)
-        try {
-            cylindricalBogie.assignCargo("Petroleum");
-        } catch (CargoSafetyException e) {
-            System.out.println("Caught Exception: " + e.getMessage());
-        } finally {
-            System.out.println("Log: Assignment attempt for Cylindrical bogie completed.\n");
+        System.out.println("Before Sorting: " + Arrays.toString(capacities));
+
+        // 2. Bubble Sort Algorithm Logic
+        // The outer loop tracks the number of passes
+        for (int i = 0; i < capacities.length - 1; i++) {
+            // The inner loop compares adjacent elements
+            for (int j = 0; j < capacities.length - 1 - i; j++) {
+                // If the left element is greater than the right, they are out of order
+                if (capacities[j] > capacities[j + 1]) {
+                    // Perform Swap using a temporary variable
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
         }
 
-        // 4. Structured Exception Handling (Unsafe Case)
-        try {
-            rectangularBogie.assignCargo("Petroleum");
-        } catch (CargoSafetyException e) {
-            // This block prevents the app from crashing
-            System.out.println("Caught Exception: " + e.getMessage());
-            System.out.println("Action: Assignment blocked. Train remains safe.");
-        } finally {
-            // This block ALWAYS executes (cleanup/logging)
-            System.out.println("Log: Assignment attempt for Rectangular bogie completed.");
+        // 3. Display the sorted result
+        System.out.println("After Sorting (Bubble Sort): " + Arrays.toString(capacities));
+
+        // Validation for Test Cases
+        System.out.println("\n--- Sorting Validation ---");
+        boolean isSorted = true;
+        for (int i = 0; i < capacities.length - 1; i++) {
+            if (capacities[i] > capacities[i + 1]) {
+                isSorted = false;
+                break;
+            }
         }
+        System.out.println("Is array correctly sorted? " + (isSorted ? "YES" : "NO"));
 
-        System.out.println("\nFinal Consist State:");
-        System.out.println(cylindricalBogie);
-        System.out.println(rectangularBogie);
-
-        System.out.println("\nUC15 structured error handling completed...");
+        System.out.println("\nUC16 manual sorting completed...");
     }
 }
